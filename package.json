@@ -8,11 +8,13 @@
   },
   "dependencies": {
     "d3": "^6.3.1",
+    "file-system": "^2.2.2",
     "sirv-cli": "^1.0.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^16.0.0",
     "@rollup/plugin-node-resolve": "^10.0.0",
+    "nodemon": "^2.0.6",
     "rollup": "^2.3.4",
     "rollup-plugin-css-only": "^3.0.0",
     "rollup-plugin-livereload": "^2.0.0",
@@ -20,5 +22,11 @@
     "rollup-plugin-terser": "^7.0.0",
     "surge": "^0.21.7",
     "svelte": "^3.0.0"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "output/",
+      "README"
+    ]
   }
 }
