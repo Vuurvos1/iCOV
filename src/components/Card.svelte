@@ -1,55 +1,70 @@
 <script>
-  let focused = false;
-  let initialX = 0;
-  let initialY = 0;
-  let startX = 0;
-  let startY = 0;
-  let x = 0;
-  let y = 0;
+  let state = {
+    dragging: false,
+    hidden: false,
 
-  function cardClick(e) {
-    focused = true;
+    deltaX: 0,
+    deltaY: 0,
 
-    startX = e.offsetX;
-    startY = e.offsetY;
+    x: 50,
+    y: 50,
+  };
 
-    x = e.offsetX;
-    y = e.offsetY;
+  function dragStart(e) {
+    state.dragging = true;
+    state.xDiff = e.pageX - state.x;
+    state.yDiff = e.pageY - state.y;
   }
 
-  function cardDrag(e) {
-    if (focused) {
-      e.preventDefault();
-
-      console.log(e.offsetX);
-
-      const newX = e.offsetX - startX;
-      const newY = e.offsetY - startY;
-
-      // e.target / e.srcElement
-      e.target.style.transform = `translate(${newX}px, ${newY}px)`;
+  function dragMove(e) {
+    if (state.dragging) {
+      // add clamp functions
+      state.x = e.pageX - state.xDiff;
+      state.y = e.pageY - state.yDiff;
     }
+
+    // Update window position
+    var w = document.querySelector(".window");
+    // renderWindow(w, state);
+
+    w.style.transform = "translate(" + state.x + "px, " + state.y + "px)";
   }
 
-  function cardEnd() {
-    focused = false;
+  function dragEnd() {
+    state.dragging = false;
   }
 </script>
 
 <style>
-  .card {
-    background-color: hotpink;
-    width: 8rem;
-    height: 12rem;
+  .window {
+    position: absolute;
+
+    width: 320px;
+    height: 220px;
 
     padding: 0.4rem;
+
+    background-color: hotpink;
+  }
+
+  .window__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
   }
 </style>
 
 <div
-  class="card"
-  on:mousedown={cardClick}
-  on:mousemove={cardDrag}
-  on:mouseup={cardEnd}>
-  <h3>Card title</h3>
+  class="window"
+  on:mousedown={dragStart}
+  on:mousemove={dragMove}
+  on:mouseup={dragEnd}>
+  <div class="window__header">
+    <h3>Card title</h3>
+    <button>Close</button>
+  </div>
+
+  <div class="window__body">
+    <p>test</p>
+  </div>
 </div>
