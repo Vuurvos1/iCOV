@@ -1,5 +1,9 @@
 <script>
+  import { onMount } from "svelte";
+
   import Card from "./components/Card.svelte";
+
+  onMount(async () => {});
 </script>
 
 <style>
@@ -66,6 +70,7 @@
     </div>
   </section>
   <section>
+    <Card />
     <Card />
   </section>
 </main>
