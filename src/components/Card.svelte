@@ -9,8 +9,8 @@
     deltaX: 0,
     deltaY: 0,
 
-    x: 50,
-    y: 50,
+    x: 0,
+    y: 0,
   };
 
   function dragStart(e) {
@@ -60,7 +60,7 @@
     windowArray.splice(0, 0, e.srcElement);
 
     for (let i = 0; i < windowArray.length; i++) {
-      windowArray[i].style.zIndex = i + 1;
+      windowArray[i].style.zIndex = windowArray.length - i;
     }
   }
 

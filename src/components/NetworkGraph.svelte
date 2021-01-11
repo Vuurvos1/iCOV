@@ -2,7 +2,14 @@
   import { onMount } from "svelte";
   import * as d3 from "d3";
 
+  const personSvgPath =
+    "M9 11.75c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zm6 0c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8 0-.29.02-.58.05-.86 2.36-1.05 4.23-2.98 5.21-5.37C11.07 8.33 14.05 10 17.42 10c.78 0 1.53-.09 2.25-.26.21.71.33 1.47.33 2.26 0 4.41-3.59 8-8 8z";
+  const companySvgPath =
+    "M17,11V3H7v4H3v14h8v-4h2v4h8V11H17z M7,19H5v-2h2V19z M7,15H5v-2h2V15z M7,11H5V9h2V11z M11,15H9v-2h2V15z M11,11H9V9h2 V11z M11,7H9V5h2V7z M15,15h-2v-2h2V15z M15,11h-2V9h2V11z M15,7h-2V5h2V7z M19,19h-2v-2h2V19z M19,15h-2v-2h2V15z";
+
   let dataTracker = {};
+
+  const nodeSize = 12;
 
   let width = 800;
   let height = 600;
@@ -65,40 +72,25 @@
 
   dataPre();
 
-  function findNode(id) {
-    return nodesData.NetworkNodes.Nodes.Node.find((el) => el.SID == id);
-  }
-
-  function getPoint(id) {
-    if (!dataTracker[id]) {
-      dataTracker[id] = {
-        x: ~~(Math.random() * width),
-        y: ~~(Math.random() * height),
-      };
-    }
-
-    return dataTracker[id];
-  }
-
   function nodeColor(key) {
     key = key.toLowerCase();
     let col = "";
 
     switch (key) {
       case "people":
-        col = "blue";
+        col = "#8E44AE";
         break;
 
       case "flag":
-        col = "#FFC300";
+        col = "#27AE60";
         break;
 
       case "department":
-        col = "green";
+        col = "#27AE60";
         break;
 
       case "address":
-        col = "#1E8449";
+        col = "#E74A3C";
         break;
 
       default:
@@ -129,7 +121,9 @@
 
     const svg = d3.select(".graph").attr("viewBox", [0, 0, width, height]);
 
-    const link = svg
+    const g = svg.append("g");
+
+    const link = g
       .append("g")
       .attr("stroke", "#999")
       .attr("stroke-opacity", 0.6)
@@ -138,22 +132,46 @@
       .join("line")
       .attr("stroke-width", (d) => Math.sqrt(d.value));
 
-    const node = svg
+    const node = g
       .append("g")
-      .attr("stroke", "#fff")
-      .attr("stroke-width", 1.5)
+      // .attr("stroke", "#fff")
+      // .attr("stroke-width", 1.5)
       .selectAll("circle")
       .data(nodes)
-      .join("circle")
-      .attr("r", 5)
+      .join("g")
+      .call(drag(simulation));
+
+    node
+      .append("circle")
+      .attr("r", nodeSize / 2)
       .attr("fill", (d) => nodeColor(d.__proto__.data.NodeID))
       .on("click", (e, d) => {
         console.log(d.__proto__.data.Attributes.Attribute);
         tooltipData = d.__proto__.data.Attributes.Attribute;
       })
-      .call(drag(simulation));
+      .append("title")
+      .text((d) => d.id);
 
-    node.append("title").text((d) => d.id);
+    node
+      .append("g")
+      .attr(
+        "transform",
+        `translate(-${nodeSize / 2}, -${nodeSize / 2})scale(${nodeSize / 24})`
+      )
+      .attr("class", "graphIcon")
+      .append("path")
+      .attr("d", (d) => {
+        switch (d.__proto__.data.NodeID.toLowerCase()) {
+          case "people":
+            return personSvgPath;
+
+          case "department":
+            return companySvgPath;
+
+          default:
+            return "";
+        }
+      });
 
     simulation.on("tick", () => {
       link
@@ -162,8 +180,24 @@
         .attr("x2", (d) => d.target.x)
         .attr("y2", (d) => d.target.y);
 
-      node.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+      node.attr("transform", (d) => `translate(${d.x} ${d.y})`);
     });
+
+    // zoom and pan logic
+    svg.call(
+      d3
+        .zoom()
+        .extent([
+          [0, 0],
+          [width, height],
+        ])
+        .scaleExtent([0.5, 8])
+        .on("zoom", zoomed)
+    );
+
+    function zoomed({ transform }) {
+      g.attr("transform", transform);
+    }
 
     function drag(simulation) {
       function dragstarted(event) {
@@ -194,6 +228,27 @@
 
 <style>
   h1 {
+    font-weight: bold;
+    text-align: center;
+  }
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  main {
+    overflow-x: hidden;
+  }
+
+  .bold {
+    font-weight: bold;
+  }
+
+  .nodeInfo {
+    position: absolute;
+    bottom: 0;
+    left: 0;
   }
 </style>
 

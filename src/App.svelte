@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
 
   import Card from "./components/Card.svelte";
+  import NetworkGraph from "./components/NetworkGraph.svelte";
 
   onMount(async () => {});
 </script>
@@ -63,11 +64,13 @@
 
 <main>
   <section id="networkGraph">
-    <div>
-      <h3>Network graph</h3>
+    <!-- <div> -->
+    <!-- <h3>Network graph</h3> -->
 
-      <img src="img/icon/account_circle.svg" alt="main icon" />
-    </div>
+    <NetworkGraph />
+
+    <!-- <img src="img/icon/account_circle.svg" alt="main icon" /> -->
+    <!-- </div> -->
   </section>
   <section>
     <Card />
