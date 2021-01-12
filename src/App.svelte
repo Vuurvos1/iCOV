@@ -1,8 +1,27 @@
 <script>
   import { onMount } from "svelte";
 
+  import { q, qa } from "./modules/helper";
+
   import Card from "./components/Card.svelte";
   import NetworkGraph from "./components/NetworkGraph.svelte";
+
+  let checkboxState = {
+    people: true,
+    address: true,
+    department: true,
+  };
+
+  function checkboxChange() {
+    const states = Object.keys(checkboxState);
+
+    for (const state of states) {
+      const elements = qa(`.${state}`);
+      for (const el of elements) {
+        el.style.opacity = checkboxState[state] ? "1" : "0.3";
+      }
+    }
+  }
 
   onMount(async () => {});
 </script>
@@ -48,15 +67,8 @@
     background-color: lightblue;
   }
 
-  #networkGraph img {
-    width: 6rem;
-    height: auto;
-
-    margin: 0 auto;
-  }
-
-  #networkGraph h3 {
-    text-align: center;
+  :global(.node) {
+    transition: opacity 0.3s ease-out;
   }
 </style>
 
@@ -64,15 +76,38 @@
 
 <main>
   <section id="networkGraph">
-    <!-- <div> -->
-    <!-- <h3>Network graph</h3> -->
-
     <NetworkGraph />
-
-    <!-- <img src="img/icon/account_circle.svg" alt="main icon" /> -->
-    <!-- </div> -->
   </section>
   <section>
+    <div>
+      <input
+        type="checkbox"
+        id="personen"
+        name="personen"
+        bind:checked={checkboxState.people}
+        on:change={checkboxChange} />
+      <label for="personen">Personen</label>
+    </div>
+
+    <div>
+      <input
+        type="checkbox"
+        id="vastgoed"
+        name="vastgoed"
+        bind:checked={checkboxState.address}
+        on:change={checkboxChange} />
+      <label for="vastgoed">Vastgoed</label>
+    </div>
+    <div>
+      <input
+        type="checkbox"
+        id="bedrijven"
+        name="bedrijven"
+        bind:checked={checkboxState.department}
+        on:change={checkboxChange} />
+      <label for="bedrijven">Bedrijven</label>
+    </div>
+
     <Card />
     <Card />
   </section>

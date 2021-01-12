@@ -134,11 +134,16 @@
 
     const node = g
       .append("g")
+
       // .attr("stroke", "#fff")
       // .attr("stroke-width", 1.5)
       .selectAll("circle")
       .data(nodes)
       .join("g")
+      .attr("class", (d) => {
+        // expand to be more generic?
+        return `node ${d.__proto__.data.NodeID.toLowerCase()}`;
+      })
       .call(drag(simulation));
 
     node
