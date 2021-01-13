@@ -2,6 +2,21 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+
+  font-family: 'Montserrat', sans-serif;
+}
+
+:root {
+  --black: #111111;
+  --offBlack: #2d232e;
+  --blue: #0652dd;
+  --red: #eb5757;
+  --yellow: #f2c94c;
+  --green: #27ae60;
+  --greenDisabled: #97d8b2;
+
+  --lightGray: #f7f7f7;
+  --white: #ffffff;
 }
 
 html,
@@ -20,6 +35,17 @@ body {
     Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
 }
 
+h1,
+h2,
+h3 {
+  color: var(--offBlack);
+  font-weight: bold;
+}
+
+p {
+  font-weight: lighter;
+}
+
 .graphIcon path {
-  fill: white;
+  fill: var(--white);
 }

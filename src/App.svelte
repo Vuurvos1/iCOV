@@ -3,6 +3,8 @@
 
   import { q, qa } from "./modules/helper";
 
+  import { cardsData } from "./store";
+
   import Card from "./components/Card.svelte";
   import NetworkGraph from "./components/NetworkGraph.svelte";
 
@@ -64,7 +66,11 @@
     width: 100%;
     height: 100vh;
 
-    background-color: lightblue;
+    background-color: var(--white);
+  }
+
+  #cardCanvas {
+    background-color: var(--lightGray);
   }
 
   :global(.node) {
@@ -75,6 +81,10 @@
 <svelte:head>
   <title>iCOV</title>
   <html lang="nl" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap"
+    rel="stylesheet" />
 </svelte:head>
 
 <header><a href="#">Menu</a> <img src="./img/iCOV.png" alt="iCOV" /></header>
@@ -83,7 +93,7 @@
   <section id="networkGraph">
     <NetworkGraph />
   </section>
-  <section>
+  <section id="cardCanvas">
     <div>
       <input
         type="checkbox"
@@ -113,7 +123,10 @@
       <label for="bedrijven">Bedrijven</label>
     </div>
 
-    <Card />
-    <Card />
+    {#each $cardsData as item}
+      <Card item={item.data} />
+    {/each}
+
+    <!-- <Card /> -->
   </section>
 </main>

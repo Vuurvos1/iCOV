@@ -2,6 +2,8 @@
   import { q, qa, moveInArray } from "./../modules/helper";
   import { onMount } from "svelte";
 
+  export let item;
+
   let state = {
     dragging: false,
     hidden: false,
@@ -79,6 +81,9 @@
     background-color: hotpink;
 
     z-index: 1;
+
+    /* temp */
+    overflow: hidden;
   }
 
   .window__header {
@@ -100,6 +105,7 @@
   }
 </style>
 
+<!-- add class based on id to remove later -->
 <div
   class="window"
   on:mousedown={dragStart}
@@ -108,11 +114,11 @@
   on:click={windowClick}
   style="z-index: 3">
   <div class="window__header">
-    <h3>Card title</h3>
+    <h3>{item.Label}</h3>
     <button>Close</button>
   </div>
 
   <div class="window__body">
-    <p>test</p>
+    <p>{JSON.stringify(item)}</p>
   </div>
 </div>

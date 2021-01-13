@@ -4,6 +4,8 @@
 
   import { q, qa } from "./../modules/helper";
 
+  import { cardsData } from "./../store";
+
   const personSvgPath =
     "M9 11.75c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zm6 0c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8 0-.29.02-.58.05-.86 2.36-1.05 4.23-2.98 5.21-5.37C11.07 8.33 14.05 10 17.42 10c.78 0 1.53-.09 2.25-.26.21.71.33 1.47.33 2.26 0 4.41-3.59 8-8 8z";
   const companySvgPath =
@@ -17,8 +19,6 @@
   let height = 600;
 
   let nodesData = {};
-
-  let tooltipData = [];
 
   async function getData() {
     const baseUrl = `${window.location.origin}/data`;
@@ -35,7 +35,6 @@
       nodesData.NetworkNodes.Nodes.Node,
     ];
     // return data.NetworkEdges.EdgeSets.EdgeSet;
-    // return '🦝';
   }
 
   async function dataPre() {
@@ -74,6 +73,7 @@
 
   dataPre();
 
+  /*
   function nodeColor(key) {
     key = key.toLowerCase();
     let col = "";
@@ -102,12 +102,29 @@
 
     return col;
   }
+  */
 
   function zoom(value) {
+    // doesn't work, scale is gotten but not applied
+
     // get current scale
 
     // set new scale
     const graph = q(".graph__transform");
+
+    const style = window.getComputedStyle(graph);
+    const matrix = style.transform || style.mozTransform;
+
+    if (matrix) {
+      const matrixValues = matrix.match(/matrix.*\((.+)\)/)[1].split(", ");
+      graph.style.transform = `${matrixValues[0] + value}, ${
+        matrixValues[1]
+      }, ${matrixValues[2]}, ${matrixValues[3]}, ${matrixValues[4]}, ${
+        matrixValues[5]
+      }`;
+
+      console.log(matrixValues);
+    }
   }
 
   onMount(async () => {
@@ -134,38 +151,34 @@
 
     const link = g
       .append("g")
-      .attr("stroke", "#999")
-      .attr("stroke-opacity", 0.6)
+      .attr("class", "graph__links")
       .selectAll("line")
       .data(links)
       .join("line")
       .attr("stroke-width", (d) => Math.sqrt(d.value));
 
+    // basic node group
     const node = g
       .append("g")
-
-      // .attr("stroke", "#fff")
-      // .attr("stroke-width", 1.5)
-      .selectAll("circle")
+      .attr("class", "graph__nodes")
+      .selectAll("g")
       .data(nodes)
       .join("g")
+
+      .on("click", (e, d) => {
+        $cardsData = [...$cardsData, { data: d.__proto__.data }];
+      })
+
       .attr("class", (d) => {
-        // expand to be more generic?
+        // expand to be more generic classes?
         return `node ${d.__proto__.data.NodeID.toLowerCase()}`;
       })
       .call(drag(simulation));
 
-    node
-      .append("circle")
-      .attr("r", nodeSize / 2)
-      .attr("fill", (d) => nodeColor(d.__proto__.data.NodeID))
-      .on("click", (e, d) => {
-        console.log(d.__proto__.data.Attributes.Attribute);
-        tooltipData = d.__proto__.data.Attributes.Attribute;
-      })
-      .append("title")
-      .text((d) => d.id);
+    // node background circle
+    node.append("circle").attr("r", nodeSize / 2);
 
+    // node icons
     node
       .append("g")
       .attr(
@@ -186,6 +199,9 @@
             return "";
         }
       });
+
+    // node titels
+    node.append("title").text((d) => d.data.Label || d.data.NodeID);
 
     simulation.on("tick", () => {
       link
@@ -241,36 +257,40 @@
 </script>
 
 <style>
-  h1 {
-    font-weight: bold;
-    text-align: center;
-  }
-
   svg {
     width: 100%;
     height: 100%;
   }
 
-  main {
-    overflow-x: hidden;
+  :global(.graph__links line) {
+    stroke: #999;
+    stroke-opacity: 0.6;
   }
 
-  .bold {
-    font-weight: bold;
+  /* default node color */
+  :global(.node circle) {
+    fill: var(--red);
+  }
+  :global(.node.people circle) {
+    fill: var(--blue);
   }
 
-  .nodeInfo {
-    position: absolute;
-    bottom: 0;
-    left: 0;
+  :global(.node.address circle) {
+    fill: var(--yellow);
+  }
+
+  :global(.node.department circle) {
+    fill: var(--green);
   }
 </style>
 
 <svg class="graph" />
 
-<button on:click={() => zoom(0.25)}><img
+<!-- 
+  <button on:click={() => zoom(0.25)}><img
     src="./img/icon/zoom_in.svg"
     alt="" /></button>
-<button on:click={() => zoom(-0.25)}><img
+  <button on:click={() => zoom(-0.25)}><img
     src="./img/icon/zoom_out.svg"
-    alt="" /></button>
+    alt="" /></button> 
+-->
