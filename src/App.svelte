@@ -72,6 +72,11 @@
   }
 </style>
 
+<svelte:head>
+  <title>iCOV</title>
+  <html lang="nl" />
+</svelte:head>
+
 <header><a href="#">Menu</a> <img src="./img/iCOV.png" alt="iCOV" /></header>
 
 <main>
