@@ -41,14 +41,25 @@
   }
 
   .graphFilter__item {
-    /* width: 100%; */
     padding: 0.6rem 0.8rem;
     background-color: var(--blue);
 
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
     cursor: pointer;
+
+    position: relative;
 
     border-left: 1px solid gray;
     border-right: 1px solid gray;
+  }
+
+  .graphFilter__item img {
+    height: 1rem;
+    width: auto;
+    filter: invert(1);
   }
 
   .graphFilter__item:first-child {
@@ -76,12 +87,14 @@
 
     display: none;
     position: absolute;
+    top: 2.4rem;
+    left: 0;
     background-color: var(--blue);
 
     margin-left: -1rem;
     min-width: 9rem;
 
-    padding: 1rem 1rem 0.8rem 1rem;
+    padding: 0.4rem 0.6rem 0.8rem 1.6rem;
 
     z-index: 1;
   }
@@ -143,10 +156,10 @@
     <img src="./img/icon/euro.svg" alt="" /> Vermogen
   </li>
   <li class="graphFilter__item">
-    <img src="./img/icon/home2.svg" alt="" /> Vastgoed
+    <img src="./img/icon/home.svg" alt="" /> Vastgoed
   </li>
   <li class="graphFilter__item">
-    <img src="./img/icon/werk.svg" alt="" /> Werk geschiedenis
+    <img src="./img/icon/work.svg" alt="" /> Werk geschiedenis
   </li>
   <li class="graphFilter__item">
     <img src="./img/icon/time.svg" alt="" /> Exacte datum

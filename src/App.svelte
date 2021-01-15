@@ -8,6 +8,7 @@
   import Card from './components/Card.svelte';
   import NetworkGraph from './components/NetworkGraph.svelte';
   import NetworkGraphSearch from './components/NetgraphSearch.svelte';
+  import Legend from './components/Legend.svelte';
 
   onMount(async () => {});
 </script>
@@ -112,6 +113,7 @@
   <section id="networkGraph">
     <NetworkGraphSearch />
     <NetworkGraph />
+    <Legend />
   </section>
   <section id="cardCanvas">
     {#each $cardsData as item}
