@@ -1,22 +1,14 @@
 <script>
-  import { onMount } from "svelte";
-  import * as d3 from "d3";
+  import { onMount } from 'svelte';
+  import * as d3 from 'd3';
 
-  import { q, qa } from "./../modules/helper";
+  import { q, qa } from './../modules/helper';
 
-  import { cardsData } from "./../store";
+  import { cardsData } from './../store';
 
-  const personSvgPath =
-    "M9 11.75c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zm6 0c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8 0-.29.02-.58.05-.86 2.36-1.05 4.23-2.98 5.21-5.37C11.07 8.33 14.05 10 17.42 10c.78 0 1.53-.09 2.25-.26.21.71.33 1.47.33 2.26 0 4.41-3.59 8-8 8z";
-  const companySvgPath =
-    "M17,11V3H7v4H3v14h8v-4h2v4h8V11H17z M7,19H5v-2h2V19z M7,15H5v-2h2V15z M7,11H5V9h2V11z M11,15H9v-2h2V15z M11,11H9V9h2 V11z M11,7H9V5h2V7z M15,15h-2v-2h2V15z M15,11h-2V9h2V11z M15,7h-2V5h2V7z M19,19h-2v-2h2V19z M19,15h-2v-2h2V15z";
-
-  let dataTracker = {};
+  import { personPath, companyPath } from './../modules/icons';
 
   const nodeSize = 12;
-
-  let width = 800;
-  let height = 600;
 
   let nodesData = {};
 
@@ -34,7 +26,6 @@
       data.NetworkEdges.EdgeSets.EdgeSet,
       nodesData.NetworkNodes.Nodes.Node,
     ];
-    // return data.NetworkEdges.EdgeSets.EdgeSet;
   }
 
   async function dataPre() {
@@ -65,44 +56,11 @@
       });
     }
 
-    console.log(newData);
-
     // {nodes: [{id: '', group: 1}], links: [{source: '', target: '', value: 1}]}
     return newData;
   }
 
   dataPre();
-
-  /*
-  function nodeColor(key) {
-    key = key.toLowerCase();
-    let col = "";
-
-    switch (key) {
-      case "people":
-        col = "#8E44AE";
-        break;
-
-      case "flag":
-        col = "#27AE60";
-        break;
-
-      case "department":
-        col = "#27AE60";
-        break;
-
-      case "address":
-        col = "#E74A3C";
-        break;
-
-      default:
-        col = "#000000";
-        break;
-    }
-
-    return col;
-  }
-  */
 
   function zoom(value) {
     // doesn't work, scale is gotten but not applied
@@ -110,13 +68,13 @@
     // get current scale
 
     // set new scale
-    const graph = q(".graph__transform");
+    const graph = q('.graph__transform');
 
     const style = window.getComputedStyle(graph);
     const matrix = style.transform || style.mozTransform;
 
     if (matrix) {
-      const matrixValues = matrix.match(/matrix.*\((.+)\)/)[1].split(", ");
+      const matrixValues = matrix.match(/matrix.*\((.+)\)/)[1].split(', ');
       graph.style.transform = `${matrixValues[0] + value}, ${
         matrixValues[1]
       }, ${matrixValues[2]}, ${matrixValues[3]}, ${matrixValues[4]}, ${
@@ -124,6 +82,8 @@
       }`;
 
       console.log(matrixValues);
+
+      // style transform(translate() scale())
     }
   }
 
@@ -139,78 +99,78 @@
     const simulation = d3
       .forceSimulation(nodes)
       .force(
-        "link",
+        'link',
         d3.forceLink(links).id((d) => d.id)
       )
-      .force("charge", d3.forceManyBody())
-      .force("center", d3.forceCenter(width / 2, height / 2));
+      .force('charge', d3.forceManyBody())
+      .force('center', d3.forceCenter(width / 2, height / 2));
 
-    const svg = d3.select(".graph").attr("viewBox", [0, 0, width, height]);
+    const svg = d3.select('.graph').attr('viewBox', [0, 0, width, height]);
 
-    const g = svg.append("g").attr("class", "graph__transform");
+    const g = svg.append('g').attr('class', 'graph__transform');
 
     const link = g
-      .append("g")
-      .attr("class", "graph__links")
-      .selectAll("line")
+      .append('g')
+      .attr('class', 'graph__links')
+      .selectAll('line')
       .data(links)
-      .join("line")
-      .attr("stroke-width", (d) => Math.sqrt(d.value));
+      .join('line')
+      .attr('stroke-width', (d) => Math.sqrt(d.value));
 
     // basic node group
     const node = g
-      .append("g")
-      .attr("class", "graph__nodes")
-      .selectAll("g")
+      .append('g')
+      .attr('class', 'graph__nodes')
+      .selectAll('g')
       .data(nodes)
-      .join("g")
+      .join('g')
 
-      .on("click", (e, d) => {
+      .on('click', (e, d) => {
         $cardsData = [...$cardsData, { data: d.__proto__.data }];
       })
 
-      .attr("class", (d) => {
+      .attr('class', (d) => {
         // expand to be more generic classes?
         return `node ${d.__proto__.data.NodeID.toLowerCase()}`;
       })
       .call(drag(simulation));
 
     // node background circle
-    node.append("circle").attr("r", nodeSize / 2);
+    node.append('circle').attr('r', nodeSize / 2);
 
     // node icons
     node
-      .append("g")
+      .append('g')
       .attr(
-        "transform",
+        'transform',
         `translate(-${nodeSize / 2}, -${nodeSize / 2})scale(${nodeSize / 24})`
       )
-      .attr("class", "graphIcon")
-      .append("path")
-      .attr("d", (d) => {
+      .attr('class', 'graphIcon')
+      .append('path')
+      .attr('d', (d) => {
         switch (d.__proto__.data.NodeID.toLowerCase()) {
-          case "people":
-            return personSvgPath;
+          case 'people':
+            return personPath;
 
-          case "department":
-            return companySvgPath;
+          case 'department':
+            return companyPath;
 
           default:
-            return "";
+            return '';
         }
       });
 
     // node titels
-    node.append("title").text((d) => d.data.Label || d.data.NodeID);
+    node.append('title').text((d) => d.data.Label || d.data.NodeID);
 
-    simulation.on("tick", () => {
+    simulation.on('tick', () => {
       link
-        .attr("x1", (d) => d.source.x)
-        .attr("y1", (d) => d.source.y)
-        .attr("x2", (d) => d.target.x)
-        .attr("y2", (d) => d.target.y);
+        .attr('x1', (d) => d.source.x)
+        .attr('y1', (d) => d.source.y)
+        .attr('x2', (d) => d.target.x)
+        .attr('y2', (d) => d.target.y);
 
-      node.attr("transform", (d) => `translate(${d.x} ${d.y})`);
+      node.attr('transform', (d) => `translate(${d.x} ${d.y})`);
     });
 
     // zoom and pan logic
@@ -222,12 +182,10 @@
           [width, height],
         ])
         .scaleExtent([0.5, 8])
-        .on("zoom", zoomed)
+        .on('zoom', ({ transform }) => {
+          g.attr('transform', transform);
+        })
     );
-
-    function zoomed({ transform }) {
-      g.attr("transform", transform);
-    }
 
     function drag(simulation) {
       function dragstarted(event) {
@@ -249,9 +207,9 @@
 
       return d3
         .drag()
-        .on("start", dragstarted)
-        .on("drag", dragged)
-        .on("end", dragended);
+        .on('start', dragstarted)
+        .on('drag', dragged)
+        .on('end', dragended);
     }
   });
 </script>
@@ -265,6 +223,10 @@
   :global(.graph__links line) {
     stroke: #999;
     stroke-opacity: 0.6;
+  }
+
+  :global(.node) {
+    transition: opacity 0.3s ease-out;
   }
 
   /* default node color */

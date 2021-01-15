@@ -11,9 +11,16 @@
   --offBlack: #2d232e;
   --blue: #0652dd;
   --red: #eb5757;
+
+  --orange: #ee7924;
+  --purple: #913d88;
+  --green: #336e7b;
   --yellow: #f2c94c;
-  --green: #27ae60;
-  --greenDisabled: #97d8b2;
+
+  --person: var(--orange);
+  --realEstate: var(--purple);
+  --company: var(--yellow);
+  --employe: var(--green);
 
   --lightGray: #f7f7f7;
   --white: #ffffff;

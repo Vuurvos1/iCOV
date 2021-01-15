@@ -2,7 +2,6 @@ const fs = require('fs');
 
 const nodes = require('./public/data/nodes.json');
 const edges = require('./public/data/edges.json');
-const { time } = require('console');
 
 // data.NetworkEdges.EdgeSets.EdgeSet,
 // nodesData.NetworkNodes.Nodes.Node,
