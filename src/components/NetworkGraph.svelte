@@ -10,30 +10,30 @@
 
   const nodeSize = 12;
 
-  let nodesData = {};
+  let nodes = [];
+  let links = [];
 
   async function getData() {
-    const baseUrl = `${window.location.origin}/data`;
-    const url = `${baseUrl}/edges.json`;
-    let data = await (await fetch(url)).json();
-
-    nodesData = await (await fetch(`${baseUrl}/nodes.json`)).json();
+    // const baseUrl = `${window.location.origin}/data`;
+    const baseUrl = `./data`;
+    const edgesData = await (await fetch(`${baseUrl}/edges.json`)).json();
+    const nodesData = await (await fetch(`${baseUrl}/nodes.json`)).json();
 
     // console.log(data, data.NetworkEdges.EdgeSets.EdgeSet[3]);
     // console.log(nodesData, nodesData.NetworkNodes.Nodes.Node);
 
     return [
-      data.NetworkEdges.EdgeSets.EdgeSet,
+      edgesData.NetworkEdges.EdgeSets.EdgeSet,
       nodesData.NetworkNodes.Nodes.Node,
     ];
   }
 
   async function dataPre() {
-    const baseUrl = `${window.location.origin}/data`;
+    const baseUrl = `./data`;
     let newData = {};
 
-    const nodes = await (await fetch(`${baseUrl}/nodes.json`)).json();
-    const links = await (await fetch(`${baseUrl}/edges.json`)).json();
+    nodes = await (await fetch(`${baseUrl}/nodes.json`)).json();
+    links = await (await fetch(`${baseUrl}/edges.json`)).json();
 
     // console.log(links.NetworkEdges.EdgeSets.EdgeSet);
     // console.log(nodes.NetworkNodes.Nodes.Node);
@@ -87,6 +87,44 @@
     }
   }
 
+  function dataLinks(e, d) {
+    const linked = [];
+
+    for (const i of links.NetworkEdges.EdgeSets.EdgeSet) {
+      // remove ToNodeSID if only want single direction links
+      if (
+        i.FromNodeSID == d.__proto__.data.SID ||
+        i.ToNodeSID == d.__proto__.data.SID
+      ) {
+        linked.push(i);
+      }
+    }
+
+    let connectedNodes = [];
+
+    for (const i of linked) {
+      const x = nodes.NetworkNodes.Nodes.Node.filter((el) => {
+        return el.SID == i.ToNodeSID || el.SID == i.FromNodeSID;
+      });
+
+      connectedNodes.push(x);
+    }
+
+    connectedNodes = [...new Set(connectedNodes.flat())];
+
+    for (const i of connectedNodes) {
+      if (i.SID == d.__proto__.data.SID) {
+        i.clicked = true;
+      }
+    }
+
+    console.log([...new Set(connectedNodes.flat())]);
+
+    $cardsData = [...new Set(connectedNodes.flat())];
+    // [...$cardsData, { data: d.__proto__.data }];
+    // console.log(linked);
+  }
+
   onMount(async () => {
     const height = 450;
     const width = 650;
@@ -126,7 +164,10 @@
       .join('g')
 
       .on('click', (e, d) => {
-        $cardsData = [...$cardsData, { data: d.__proto__.data }];
+        // $cardsData = [...$cardsData, { data: d.__proto__.data }];
+      })
+      .on('click', (e, d) => {
+        dataLinks(e, d);
       })
 
       .attr('class', (d) => {

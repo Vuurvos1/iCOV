@@ -1,20 +1,21 @@
 <script>
-  import { q, qa, moveInArray } from "./../modules/helper";
-  import { onMount } from "svelte";
+  import { q, qa, moveInArray } from './../modules/helper';
+  import { onMount } from 'svelte';
 
   export let item;
 
-  let state = {
-    dragging: false,
-    hidden: false,
+  // let state = {
+  //   dragging: false,
+  //   hidden: false,
 
-    deltaX: 0,
-    deltaY: 0,
+  //   deltaX: 0,
+  //   deltaY: 0,
 
-    x: 0,
-    y: 0,
-  };
+  //   x: 0,
+  //   y: 0,
+  // };
 
+  /*
   function dragStart(e) {
     e.preventDefault();
 
@@ -65,13 +66,14 @@
       windowArray[i].style.zIndex = windowArray.length - i;
     }
   }
+  */
 
   onMount(() => {});
 </script>
 
 <style>
   .window {
-    position: absolute;
+    /* position: absolute; */
 
     width: 320px;
     height: 220px;
@@ -84,6 +86,10 @@
 
     /* temp */
     overflow: hidden;
+  }
+
+  .window--clicked {
+    background-color: orangered;
   }
 
   .window__header {
@@ -106,13 +112,7 @@
 </style>
 
 <!-- add class based on id to remove later -->
-<div
-  class="window"
-  on:mousedown={dragStart}
-  on:mousemove={dragMove}
-  on:mouseup={dragEnd}
-  on:click={windowClick}
-  style="z-index: 3">
+<div class={`window ${item.clicked ? 'window--clicked' : ''}`}>
   <div class="window__header">
     <h3>{item.Label}</h3>
     <button>Close</button>

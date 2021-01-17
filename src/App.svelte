@@ -89,6 +89,13 @@
 
   #cardCanvas {
     background-color: var(--lightGray);
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 320px);
+    grid-template-rows: auto;
+
+    /* display: flex;
+    flex-wrap: wrap; */
   }
 </style>
 
@@ -117,7 +124,7 @@
   </section>
   <section id="cardCanvas">
     {#each $cardsData as item}
-      <Card item={item.data} />
+      <Card {item} />
     {/each}
   </section>
 </main>
