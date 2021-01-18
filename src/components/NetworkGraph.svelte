@@ -4,7 +4,7 @@
 
   import { q, qa } from './../modules/helper';
 
-  import { cardsData } from './../store';
+  import { cardsData, cardCanvasState, highlightedCard } from './../store';
 
   import { personPath, companyPath } from './../modules/icons';
 
@@ -115,14 +115,14 @@
     for (const i of connectedNodes) {
       if (i.SID == d.__proto__.data.SID) {
         i.clicked = true;
+        $highlightedCard = i;
+        $cardCanvasState = i.NodeID.toLowerCase();
+      } else {
+        i.clicked = false;
       }
     }
 
-    console.log([...new Set(connectedNodes.flat())]);
-
-    $cardsData = [...new Set(connectedNodes.flat())];
-    // [...$cardsData, { data: d.__proto__.data }];
-    // console.log(linked);
+    $cardsData = [...connectedNodes];
   }
 
   onMount(async () => {

@@ -1,16 +1,8 @@
 <script>
-  import { onMount } from 'svelte';
-
-  // import { q, qa } from './modules/helper';
-
-  import { cardsData } from './store';
-
-  import Card from './components/Card.svelte';
   import NetworkGraph from './components/NetworkGraph.svelte';
   import NetworkGraphSearch from './components/NetgraphSearch.svelte';
+  import GraphCanvas from './components/GraphCanvas.svelte';
   import Legend from './components/Legend.svelte';
-
-  onMount(async () => {});
 </script>
 
 <style>
@@ -49,27 +41,13 @@
     width: auto;
   }
 
-  header {
+  header img {
     position: fixed;
     top: 0.6rem;
-    left: 0;
-
-    width: 100vw;
-    height: 2rem;
-
-    padding: 0 2rem 0 1rem;
-
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-
-  header img {
-    /* height: 2rem;
+    right: 1rem;
+    height: 1.4rem;
     width: auto;
-    padding: 0.2rem 0; */
   }
-
   main {
     display: grid;
     grid-template-columns: 55vw 45vw;
@@ -89,13 +67,7 @@
 
   #cardCanvas {
     background-color: var(--lightGray);
-
-    display: grid;
-    grid-template-columns: repeat(auto-fit, 320px);
-    grid-template-rows: auto;
-
-    /* display: flex;
-    flex-wrap: wrap; */
+    padding: 1rem;
   }
 </style>
 
@@ -110,9 +82,6 @@
 </svelte:head>
 
 <header>
-  <!-- <a class="button button--icon" href="back"
-    ><img src="./img/icon/round_arrow.svg" alt="" /> Hoofdmenu</a
-  > -->
   <img src="./img/iCOV.png" alt="iCOV" />
 </header>
 
@@ -123,8 +92,6 @@
     <Legend />
   </section>
   <section id="cardCanvas">
-    {#each $cardsData as item}
-      <Card {item} />
-    {/each}
+    <GraphCanvas />
   </section>
 </main>

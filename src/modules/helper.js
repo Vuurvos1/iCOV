@@ -30,3 +30,13 @@ export const moveInArray = (input, from, to) => {
 
   return input.splice(to, numberOfDeletedElm, elm);
 };
+
+export const getAtribute = (attributes, value) => {
+  for (const i of attributes) {
+    if (i.Name == value) {
+      return i.Value;
+    }
+  }
+
+  return null;
+};

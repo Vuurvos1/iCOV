@@ -27,9 +27,8 @@
     display: flex;
     flex-direction: row;
 
-    background-color: var(--blue);
-
-    /* justify-content: space-evenly; */
+    /* background-color: var(--blue); */
+    background-color: #a4a0a0;
 
     width: 100%;
 
@@ -42,7 +41,8 @@
 
   .graphFilter__item {
     padding: 0.6rem 0.8rem;
-    background-color: var(--blue);
+    background-color: #a4a0a0;
+    /* background-color: var(--blue); */
 
     display: flex;
     flex-direction: row;
