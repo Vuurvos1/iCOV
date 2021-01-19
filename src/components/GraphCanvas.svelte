@@ -99,7 +99,7 @@
       U bekijkt nu {$highlightedCard.Label}
     </h1>
 
-    <section class="addressBox addressBox--people">
+    <section class="addressBox addressBox--person">
       <div class="icon">
         <h3>
           {$highlightedCard.Label}

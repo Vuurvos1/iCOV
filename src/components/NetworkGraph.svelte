@@ -6,7 +6,7 @@
 
   import { cardsData, cardCanvasState, highlightedCard } from './../store';
 
-  import { personPath, companyPath } from './../modules/icons';
+  import { personPath, companyPath, realEstatePath } from './../modules/icons';
 
   const nodeSize = 12;
 
@@ -164,9 +164,6 @@
       .join('g')
 
       .on('click', (e, d) => {
-        // $cardsData = [...$cardsData, { data: d.__proto__.data }];
-      })
-      .on('click', (e, d) => {
         dataLinks(e, d);
       })
 
@@ -184,7 +181,9 @@
       .append('g')
       .attr(
         'transform',
-        `translate(-${nodeSize / 2}, -${nodeSize / 2})scale(${nodeSize / 24})`
+        `translate(-${(nodeSize - 2) / 2}, -${(nodeSize - 1) / 2})scale(${
+          (nodeSize - 2) / 24
+        })`
       )
       .attr('class', 'graphIcon')
       .append('path')
@@ -195,6 +194,9 @@
 
           case 'department':
             return companyPath;
+
+          case 'address':
+            return realEstatePath;
 
           default:
             return '';
@@ -272,18 +274,18 @@
 
   /* default node color */
   :global(.node circle) {
-    fill: var(--red);
+    fill: var(--person);
   }
   :global(.node.people circle) {
-    fill: var(--blue);
+    fill: var(--employe);
   }
 
   :global(.node.address circle) {
-    fill: var(--yellow);
+    fill: var(--realEstate);
   }
 
   :global(.node.department circle) {
-    fill: var(--green);
+    fill: var(--company);
   }
 </style>
 
