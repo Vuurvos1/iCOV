@@ -1,5 +1,5 @@
 <script>
-  import { q, qa, moveInArray, getAtribute } from './../modules/helper';
+  import { q, qa, getAtribute } from './../modules/helper';
   import Female from './icons/Female.svelte';
   import Male from './icons/Male.svelte';
 

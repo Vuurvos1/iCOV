@@ -27,8 +27,7 @@
     display: flex;
     flex-direction: row;
 
-    /* background-color: var(--blue); */
-    background-color: #a4a0a0;
+    background-color: var(--menuBack);
 
     width: 100%;
 
@@ -41,8 +40,7 @@
 
   .graphFilter__item {
     padding: 0.6rem 0.8rem;
-    background-color: #a4a0a0;
-    /* background-color: var(--blue); */
+    background-color: var(--menuBack);
 
     display: flex;
     flex-direction: row;
@@ -89,7 +87,7 @@
     position: absolute;
     top: 2.4rem;
     left: 0;
-    background-color: var(--blue);
+    background-color: var(--menuBack);
 
     margin-left: -1rem;
     min-width: 9rem;

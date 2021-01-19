@@ -8,7 +8,7 @@
 <style>
   :global(body) {
     max-height: 100vh;
-    overflow-y: hidden;
+    /* overflow-y: hidden; */
   }
 
   :global(a) {
@@ -65,10 +65,10 @@
     background-color: var(--white);
   }
 
-  #cardCanvas {
+  /* #cardCanvas {
     background-color: var(--lightGray);
     padding: 1rem;
-  }
+  } */
 </style>
 
 <svelte:head>
@@ -91,7 +91,5 @@
     <NetworkGraph />
     <Legend />
   </section>
-  <section id="cardCanvas">
-    <GraphCanvas />
-  </section>
+  <GraphCanvas />
 </main>
