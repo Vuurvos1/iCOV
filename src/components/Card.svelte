@@ -1,5 +1,5 @@
 <script>
-  import { q, qa, getAtribute } from './../modules/helper';
+  import { getAtribute, convertDate } from './../modules/helper';
   import Female from './icons/Female.svelte';
   import Male from './icons/Male.svelte';
 
@@ -88,7 +88,9 @@
           Geboortedatum:
           <b>
             <br />
-            {getAtribute(item.Attributes.Attribute, 'DATE_OF_BIRTH')}
+            {convertDate(
+              getAtribute(item.Attributes.Attribute, 'DATE_OF_BIRTH')
+            )}
           </b>
         </li>
       </ul>

@@ -1,6 +1,6 @@
 <script>
   import { cardsData, cardCanvasState, highlightedCard } from './../store';
-  import { getAtribute } from './../modules/helper';
+  import { getAtribute, convertDate } from './../modules/helper';
   import Card from './Card.svelte';
   import House from './icons/House.svelte';
   import Building from './icons/Building.svelte';
@@ -10,11 +10,29 @@
   function getSex() {
     return getAtribute($highlightedCard.Attributes.Attribute, 'SEX');
   }
+
+  function subLocation() {
+    let zip = getAtribute($highlightedCard.Attributes.Attribute, 'POSTAL_CODE');
+    const city = getAtribute($highlightedCard.Attributes.Attribute, 'CITY');
+
+    zip = zip.slice(0, 4) + ' ' + zip.slice(4);
+
+    return `${zip},  ${city}`;
+  }
 </script>
 
 <style>
+  h2 {
+    font-size: 1rem;
+    color: var(--black);
+    font-weight: 400;
+  }
   h3 {
-    color: var(--white);
+    color: var(--black);
+  }
+
+  .zeroState {
+    margin-top: 8rem;
   }
 
   .mapImg {
@@ -27,7 +45,25 @@
     max-height: 100vh;
     overflow-y: scroll;
 
-    padding: 2.6rem 1rem 0 1rem;
+    padding: 3.6rem 1rem 0 1rem;
+  }
+
+  .list--icon {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .list--icon b {
+    margin-left: 0.4em;
+  }
+
+  .icon {
+    width: 20rem;
+  }
+
+  .icon h3 {
+    color: var(--white);
   }
 
   .icon :global(.icon--large) {
@@ -70,6 +106,9 @@
 
   .addressBox--person {
     background-color: var(--person);
+    max-width: 24rem;
+    min-height: 16rem;
+    margin: 2rem auto 0 auto;
   }
 
   .addressBox li {
@@ -82,8 +121,8 @@
 
   .cardList {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
-    grid-template-rows: repeat(auto, 12rem);
+    grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+    grid-template-rows: auto;
     grid-column-gap: 1.4rem;
     grid-row-gap: 1.4rem;
 
@@ -106,9 +145,9 @@
         </h3>
 
         <ul>
-          <li>
+          <li class="list--icon">
             Geslacht:
-            <b>{getAtribute($highlightedCard.Attributes.Attribute, 'SEX')} </b>
+            <b> {getSex().toLowerCase()} </b>
             {#if getSex() == 'MALE'}
               <Male class="cardList__icon" />
             {:else}
@@ -124,9 +163,11 @@
           <li>
             Geboortedatum:
             <b>
-              {getAtribute(
-                $highlightedCard.Attributes.Attribute,
-                'DATE_OF_BIRTH'
+              {convertDate(
+                getAtribute(
+                  $highlightedCard.Attributes.Attribute,
+                  'DATE_OF_BIRTH'
+                )
               )}
             </b>
           </li>
@@ -185,7 +226,7 @@
       )}`}
     </h1>
 
-    <h3>address</h3>
+    <h3>{subLocation()}</h3>
     <section class="addressBox">
       <div class="icon">
         <House class="icon--large icon--large--white" />
@@ -193,11 +234,10 @@
         <ul>
           <li>
             Datum van aankoop:
-            <b
-              >{`${getAtribute(
-                $highlightedCard.Attributes.Attribute,
-                'FROM_DATE'
-              )}`}
+            <b>
+              {convertDate(
+                getAtribute($highlightedCard.Attributes.Attribute, 'FROM_DATE')
+              )}
             </b>
           </li>
           <li>
@@ -220,19 +260,23 @@
     </ul>
 
     <section>
-      <h2>
+      <h3>
         {!$cardsData[0].clicked ? $cardsData[0].Label : $cardsData[1].Label} bezit
         ook:
-      </h2>
+      </h3>
 
       <ul>
+        <!-- <li>img</li>
         <li>img</li>
-        <li>img</li>
-        <li>img</li>
+        <li>img</li> -->
       </ul>
     </section>
   {:else}
-    <h1>U bekijkt nu Steven King</h1>
+    <div class="zeroState">
+      <h1>Uw canvas is leeg</h1>
+      <h2>Klik op een dot in de Relatie Scan om meer informatie te zien</h2>
+    </div>
+    <!-- <h1>U bekijkt nu Steven King</h1>
 
     <section class="addressBox addressBox--person">
       <div class="icon">
@@ -254,6 +298,6 @@
           </li>
         </ul>
       </div>
-    </section>
+    </section> -->
   {/if}
 </div>
