@@ -8,7 +8,6 @@
 <style>
   :global(body) {
     max-height: 100vh;
-    /* overflow-y: hidden; */
   }
 
   :global(a) {
@@ -44,7 +43,7 @@
   header img {
     position: fixed;
     top: 0.6rem;
-    right: 1rem;
+    right: 1.6rem;
     height: 1.4rem;
     width: auto;
   }
@@ -64,11 +63,6 @@
 
     background-color: var(--white);
   }
-
-  /* #cardCanvas {
-    background-color: var(--lightGray);
-    padding: 1rem;
-  } */
 </style>
 
 <svelte:head>

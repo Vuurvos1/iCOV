@@ -169,7 +169,9 @@
 
       .attr('class', (d) => {
         // expand to be more generic classes?
-        return `node ${d.__proto__.data.NodeID.toLowerCase()}`;
+        return `node ${d.__proto__.data.NodeID.toLowerCase()} a${
+          d.__proto__.data.SID
+        }`;
       })
       .call(drag(simulation));
 

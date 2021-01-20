@@ -7,6 +7,10 @@
   import Female from './icons/Female.svelte';
   import Male from './icons/Male.svelte';
 
+  import Company from './canvasElements/Company.svelte';
+  import Person from './canvasElements/Person.svelte';
+  import RealEstate from './canvasElements/RealEstate.svelte';
+
   function getSex() {
     return getAtribute($highlightedCard.Attributes.Attribute, 'SEX');
   }
@@ -15,13 +19,15 @@
     let zip = getAtribute($highlightedCard.Attributes.Attribute, 'POSTAL_CODE');
     const city = getAtribute($highlightedCard.Attributes.Attribute, 'CITY');
 
+    console.log(zip, city);
+
     zip = zip.slice(0, 4) + ' ' + zip.slice(4);
 
     return `${zip},  ${city}`;
   }
 </script>
 
-<style>
+<style lang="scss">
   h2 {
     font-size: 1rem;
     color: var(--black);
@@ -59,18 +65,15 @@
   }
 
   .icon {
-    width: 20rem;
-  }
+    h3 {
+      color: var(--white);
+    }
+    :global(.icon--large) {
+      height: 6rem;
+      width: 100%;
 
-  .icon h3 {
-    color: var(--white);
-  }
-
-  .icon :global(.icon--large) {
-    height: 6rem;
-    width: 100%;
-
-    margin: 0 auto;
+      margin: 0 auto;
+    }
   }
 
   .icon :global(.icon--large--white path:last-child) {
@@ -96,12 +99,8 @@
     margin-bottom: 3.4rem;
 
     display: grid;
-    grid-template-columns: auto 65%;
-  }
-
-  .addressBox--department {
-    background-color: var(--company);
-    color: var(--black);
+    grid-template-columns: 1fr 60%;
+    grid-column-gap: 1rem;
   }
 
   .addressBox--person {
@@ -175,49 +174,7 @@
       </div>
     </section>
   {:else if $cardCanvasState == 'department'}
-    <h1>
-      {`U bekijkt nu ${getAtribute(
-        $highlightedCard.Attributes.Attribute,
-        'DEPARTMENT_NAME'
-      )}`}
-    </h1>
-
-    <h3>
-      Zip: {getAtribute($highlightedCard.Attributes.Attribute, 'LOCATION_ID')}
-    </h3>
-
-    <section class="addressBox addressBox--department">
-      <div class="icon">
-        <Building class="icon--large" />
-
-        <ul>
-          <li>
-            Department ID:
-            <b
-              >{`${getAtribute(
-                $highlightedCard.Attributes.Attribute,
-                'DEPARTMENT_ID'
-              )}`}
-            </b>
-          </li>
-          <li>
-            Aantal werknemers:
-            <b>
-              {$cardsData.length - 1}
-            </b>
-          </li>
-        </ul>
-      </div>
-      <div>
-        <img class="mapImg" src="./img/map.png" alt="" />
-      </div>
-    </section>
-
-    <ul class="cardList">
-      {#each $cardsData as item}
-        <Card {item} />
-      {/each}
-    </ul>
+    <Company />
   {:else if $cardCanvasState == 'address'}
     <h1>
       {`U bekijkt nu ${getAtribute(
@@ -248,9 +205,7 @@
           </li>
         </ul>
       </div>
-      <div>
-        <img class="mapImg" src="./img/map.png" alt="" />
-      </div>
+      <img class="mapImg" src="./img/map.png" alt="" />
     </section>
 
     <ul class="cardList">

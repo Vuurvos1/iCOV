@@ -11,15 +11,16 @@
 
   h2 {
     margin-bottom: 0.2em;
+    text-align: center;
   }
 
   .legend {
     position: fixed;
-    bottom: 0;
-    left: 0;
+    bottom: 0.5rem;
+    left: 0.5rem;
 
     padding: 0.6rem 1rem;
-    border-radius: 0.25rem 0.25rem 0.25rem 0.25rem;
+    border-radius: 0.5rem;
 
     background-color: var(--lightGray);
   }

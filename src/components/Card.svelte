@@ -1,9 +1,18 @@
 <script>
-  import { getAtribute, convertDate } from './../modules/helper';
+  import { q, qa, getAtribute, convertDate } from './../modules/helper';
   import Female from './icons/Female.svelte';
   import Male from './icons/Male.svelte';
 
   export let item;
+
+  function highlightGraph(element) {
+    const allNodes = qa('.node');
+    for (const i of allNodes) {
+      i.style.opacity = '0.3';
+    }
+
+    q(`.a${element}`).style.opacity = '1';
+  }
 </script>
 
 <style>
@@ -66,7 +75,10 @@
 
 <!-- add class based on id to remove later -->
 {#if !item.clicked}
-  <div class={`window ${item.clicked ? 'window--clicked' : ''}`}>
+  <div
+    class={`window ${item.clicked ? 'window--clicked' : ''}`}
+    on:click={highlightGraph(item.SID)}
+  >
     <div class="window__header">
       <h3>{item.Label}</h3>
     </div>
@@ -94,61 +106,6 @@
           </b>
         </li>
       </ul>
-
-      <!-- <p>{JSON.stringify(item)}</p> -->
     </div>
   </div>
 {/if}
-
-<!-- {
-  "SID": "2458635",
-  "NetworkSID": "2458250",
-  "NetworkLayerSID": "2458271",
-  "NodeID": "ADDRESS",
-  "SubNodeID": "ADDRESS",
-  "NodeType": "NODE",
-  "Label": "Vliegenstraat Leiden",
-  "Key": "VliegenstraatNederland2222BBLeiden",
-  "Evaluated": "1",
-  "Flagged": "1",
-  "StepsFromStart": "4",
-  "StepsFromStartInLayer": "2",
-  "NumberOfFlags": "0",
-  "NetworkStartNode": "0",
-  "TopNode": "0",
-  "DisplayProperties": {
-    "NodeIcons": "",
-    "IconOverride": "FutureUse",
-    "Size": "FutureUse",
-    "AuraWeight": "FutureUse",
-    "AuraColour": "FutureUse"
-  },
-  "Attributes": {
-    "Attribute": [
-      {
-        "Name": "CITY",
-        "Value": "Leiden"
-      },
-      {
-        "Name": "COUNTRY",
-        "Value": "Nederland"
-      },
-      {
-        "Name": "FROM_DATE",
-        "Value": "2016-12-01"
-      },
-      {
-        "Name": "POSTAL_CODE",
-        "Value": "2222BB"
-      },
-      {
-        "Name": "STREET_ADDRESS",
-        "Value": "Vliegenstraat"
-      },
-      {
-        "Name": "LABEL",
-        "Value": "Vliegenstraat Leiden"
-      }
-    ]
-  }
-}, -->

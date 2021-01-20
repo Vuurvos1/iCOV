@@ -19,7 +19,7 @@
   }
 </script>
 
-<style>
+<style lang="scss">
   .graphFilters {
     margin-top: 3rem;
 
@@ -32,10 +32,6 @@
     width: 100%;
 
     color: var(--white);
-  }
-
-  .graphFilter__item:hover .filter__items {
-    display: block;
   }
 
   .graphFilter__item {
@@ -52,32 +48,33 @@
 
     border-left: 1px solid gray;
     border-right: 1px solid gray;
-  }
 
-  .graphFilter__item img {
-    height: 1rem;
-    width: auto;
-    filter: invert(1);
-  }
+    &:hover .filter__items {
+      display: block;
+    }
 
-  .graphFilter__item:first-child {
-    border-left: none;
-  }
+    &:first-child {
+      border-left: none;
+    }
 
-  .graphFilter__item:last-child {
-    border-right: none;
-  }
+    &:last-child {
+      border-right: none;
+    }
 
-  .graphFilter__item span {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+    img {
+      height: 1rem;
+      width: auto;
+      margin-right: 0.2rem;
+      filter: invert(1);
+    }
 
-    color: var(--white);
-  }
+    span {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
 
-  .graphFilter__item img {
-    margin-right: 0.2rem;
+      color: var(--white);
+    }
   }
 
   .filter__items {
@@ -89,20 +86,21 @@
     left: 0;
     background-color: var(--menuBack);
 
-    margin-left: -1rem;
     min-width: 9rem;
 
-    padding: 0.4rem 0.6rem 0.8rem 1.6rem;
+    padding: 0.4rem 0.8rem 0.8rem 0.8rem;
 
     z-index: 1;
-  }
 
-  .filter__items li {
-    padding-bottom: 0.4rem;
-  }
+    white-space: nowrap;
 
-  .filter__items label {
-    color: var(--white);
+    li {
+      padding-bottom: 0.4rem;
+    }
+
+    label {
+      color: var(--white);
+    }
   }
 
   .graphFilter__item label,
@@ -123,7 +121,7 @@
           bind:checked={checkboxState.people}
           on:change={checkboxChange}
         />
-        <label for="personen">Personen</label>
+        <label for="personen">Relaties</label>
       </li>
       <li>
         <input
@@ -133,7 +131,7 @@
           bind:checked={checkboxState.address}
           on:change={checkboxChange}
         />
-        <label for="vastgoed">Vastgoed</label>
+        <label for="vastgoed">Eigendommen</label>
       </li>
       <li>
         <input
@@ -148,13 +146,61 @@
     </ul>
   </li>
   <li class="graphFilter__item">
-    <img src="./img/icon/user.svg" alt="" /> Relaties
+    <span><img src="./img/icon/user.svg" alt="" />Relaties</span>
+    <ul class="filter__items">
+      <li>
+        <input type="checkbox" id="a" name="a" checked />
+        <label for="a">Arbeidsrelaties</label>
+      </li>
+      <li>
+        <input type="checkbox" id="b" name="b" checked />
+        <label for="b">Financiële</label>
+      </li>
+      <li>
+        <input type="checkbox" id="c" name="c" checked />
+        <label for="c">Justitionele</label>
+      </li>
+      <li>
+        <input type="checkbox" id="d" name="d" checked />
+        <label for="d">Persoonlijke</label>
+      </li>
+    </ul>
   </li>
   <li class="graphFilter__item">
     <img src="./img/icon/euro.svg" alt="" /> Vermogen
   </li>
   <li class="graphFilter__item">
-    <img src="./img/icon/home.svg" alt="" /> Vastgoed
+    <span><img src="./img/icon/home.svg" alt="" /> Vastgoed</span>
+
+    <ul class="filter__items">
+      <li>
+        <input
+          type="checkbox"
+          id="vastgoedBedrijven"
+          name="vastgoedBedrijven"
+          checked
+        />
+        <label for="vastgoedBedrijven">Bedrijven</label>
+      </li>
+      <li>
+        <input
+          type="checkbox"
+          id="vastgoedVastgoed"
+          name="vastgoedVastgoed"
+          checked
+        />
+        <label for="vastgoedVastgoed">Vastgoed</label>
+      </li>
+      <li>
+        <input
+          type="checkbox"
+          id="vastgoedVoertuig"
+          name="vastgoedVoertuig"
+          checked
+        />
+        <label for="vastgoedVoertuig">Voertuigen</label>
+      </li>
+    </ul>
   </li>
   <li class="graphFilter__item">
     <img src="./img/icon/work.svg" alt="" /> Werk geschiedenis

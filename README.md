@@ -1,105 +1,100 @@
-*Looking for a shareable component template? Go here --> [sveltejs/component-template](https://github.com/sveltejs/component-template)*
+# Functional Programming
 
----
+## 📚 Table of contents
 
-# svelte app
+- [🤔 About](#-About)
+  - [🔮 See it live](#-See-it-live)
+  - [🛠 Build with](#-Build-with)
+  - [🗃 The Data](#-The-data)
+- [🔧 Installing the project](#-Installing-and-using-the-project)
+  - [🚀 Launch the project](#-Launch-the-project)
+  - [🌺 SCSS](#-SCSS)
+  - [🌍 Deploying](#-Deploying)
+- [🗺️ License](#%EF%B8%8F-license)
 
-This is a project template for [Svelte](https://svelte.dev) apps. It lives at https://github.com/sveltejs/template.
+## 🤔 About
 
-To create a new project based on this template using [degit](https://github.com/Rich-Harris/degit):
+![Screenshot op app](https://raw.githubusercontent.com/wiki/Vuurvos1/iCOV/img/liveApp02.png)
 
-```bash
-npx degit sveltejs/template svelte-app
-cd svelte-app
+iCov (infobox for Crimineel en Onverklaarbaar Vermogen) has a partnership with various government organizations to trace unlawful obtained assets so they can be confiscated and returned. However, with the tools they currently have, it can be quite hard to find suspicious relations.
+We want to make sure that partners can analyze the relationship scan with as little time and effort as possible. This means we have to look at how to make the current solution better or think of something new. The new solution must be user-friendly and interactive.
+
+Check out the [wiki](https://github.com/vuurvos1/icov/wiki) of this repository to find out more detailed information about the project and process.
+
+### 🔮 See it live
+
+The site is also hosted on Surge, note that it can take a while to launch the app.
+See it here: [icovdev.surge.sh](http://icovdev.surge.sh/)
+
+### 🛠 Build with
+
+- Svelte
+- D3.js
+- Node.js
+- NPM packages
+
+* Node was only used to process the dataset
+
+### 🗃 The Data
+
+There where 3 "fake data" datasets delivered by iCov since the data they work privacy-sensitive data
+
+- Nodes
+  Contains information about people, companies and real estate
+- Edges
+  This dataset contains information on how the Nodes in the Node dataset are connected and related
+- ANB
+  A combination of the 2 above datasets
+
+These three datasets can be combined using the `SID` variables which are available in all three datasets.
+
+Originally these datasets were delivered in an XML format, I converted these to JSON and removed some of the variables that wouldn't be needed for better performance later while using the data. No variables where modified or added
+
+## 🔧 Installing and using the project
+
+First of all, make sure you have [**Node.js**](https://nodejs.org), **NPM** and [**Git**](https://git-scm.com/) installed
+
+1. Choose or make a new directory to clone the project to
+2. Clone the repository
+   `git@github.com:Vuurvos1/iCOV.git`
+3. Cd into the project folder
+4. Run `npm install` to install the needed npm packages
+5. Run `npm run build` to build all needed files
+
+### 🚀 Launch the project
+
+You can start the project using `npm start`
+or run `npm run dev` if you are a developer
+
+By default, the project will be hosted on [**localhost:5000**](http://localhost:5000)
+
+### 🌺 SCSS
+
+If you want to use SCSS you can!
+add `lang="scss"` to your style elements and SCSS away
+
+```html
+<style lang="scss">
+  /* use scss here */
+</style>
 ```
 
-*Note that you will need to have [Node.js](https://nodejs.org) installed.*
+### 🌍 Deploying
 
-
-## Get started
-
-Install the dependencies...
+Deploying the project can be easily done using Surge, run:
 
 ```bash
-cd svelte-app
-npm install
-```
-
-...then start [Rollup](https://rollupjs.org):
-
-```bash
-npm run dev
-```
-
-Navigate to [localhost:5000](http://localhost:5000). You should see your app running. Edit a component file in `src`, save it, and reload the page to see your changes.
-
-By default, the server will only respond to requests from localhost. To allow connections from other computers, edit the `sirv` commands in package.json to include the option `--host 0.0.0.0`.
-
-If you're using [Visual Studio Code](https://code.visualstudio.com/) we recommend installing the official extension [Svelte for VS Code](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode). If you are using other editors you may need to install a plugin in order to get syntax highlighting and intellisense.
-
-## Building and running in production mode
-
-To create an optimised version of the app:
-
-```bash
-npm run build
-```
-
-You can run the newly built app with `npm run start`. This uses [sirv](https://github.com/lukeed/sirv), which is included in your package.json's `dependencies` so that the app will work when you deploy to platforms like [Heroku](https://heroku.com).
-
-
-## Single-page app mode
-
-By default, sirv will only respond to requests that match files in `public`. This is to maximise compatibility with static fileservers, allowing you to deploy your app anywhere.
-
-If you're building a single-page app (SPA) with multiple routes, sirv needs to be able to respond to requests for *any* path. You can make it so by editing the `"start"` command in package.json:
-
-```js
-"start": "sirv public --single"
-```
-
-## Using TypeScript
-
-This template comes with a script to set up a TypeScript development environment, you can run it immediately after cloning the template with:
-
-```bash
-node scripts/setupTypeScript.js
-```
-
-Or remove the script via:
-
-```bash
-rm scripts/setupTypeScript.js
-```
-
-## Deploying to the web
-
-### With [Vercel](https://vercel.com)
-
-Install `vercel` if you haven't already:
-
-```bash
-npm install -g vercel
-```
-
-Then, from within your project folder:
-
-```bash
-cd public
-vercel deploy --name my-project
-```
-
-### With [surge](https://surge.sh/)
-
-Install `surge` if you haven't already:
-
-```bash
-npm install -g surge
-```
-
-Then, from within your project folder:
-
-```bash
-npm run build
 surge public my-project.surge.sh
 ```
+
+after building the project using:
+
+```bash
+npm run build
+```
+
+and you should be good to go
+
+## 🗺️ License
+
+Author: [Vuurvos1](https://github.com/Vuurvos1), license by [MIT](https://github.com/Vuurvos1/iCOV/blob/main/LICENSE)
