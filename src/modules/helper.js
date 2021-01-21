@@ -4,9 +4,7 @@ export const qa = document.querySelectorAll.bind(document);
 
 export const moveInArray = (input, from, to) => {
   let numberOfDeletedElm = 1;
-
   const elm = input.splice(from, numberOfDeletedElm);
-  console.log(elm);
 
   numberOfDeletedElm = 0;
 
@@ -14,9 +12,11 @@ export const moveInArray = (input, from, to) => {
 };
 
 export const getAtribute = (attributes, value) => {
-  for (const i of attributes) {
-    if (i.Name == value) {
-      return i.Value;
+  if (Array.isArray(attributes)) {
+    for (const i of attributes) {
+      if (i.Name == value) {
+        return i.Value;
+      }
     }
   }
 
@@ -24,8 +24,7 @@ export const getAtribute = (attributes, value) => {
 };
 
 export const convertDate = (date) => {
-  // takes year-month-day
-
+  // input 'year-month-day'
   const months = [
     'januarie',
     'februari',

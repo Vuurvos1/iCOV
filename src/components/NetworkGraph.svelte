@@ -2,134 +2,20 @@
   import { onMount } from 'svelte';
   import * as d3 from 'd3';
 
-  import { q, qa } from './../modules/helper';
-
-  import { cardsData, cardCanvasState, highlightedCard } from './../store';
+  import { linkedNodes } from './../modules/graphFunctions';
+  import { getData, dataPreprocess } from './../modules/datasetHelpers';
 
   import { personPath, companyPath, realEstatePath } from './../modules/icons';
 
   const nodeSize = 12;
 
-  let nodes = [];
-  let links = [];
-
-  async function getData() {
-    // const baseUrl = `${window.location.origin}/data`;
-    const baseUrl = `./data`;
-    const edgesData = await (await fetch(`${baseUrl}/edges.json`)).json();
-    const nodesData = await (await fetch(`${baseUrl}/nodes.json`)).json();
-
-    // console.log(data, data.NetworkEdges.EdgeSets.EdgeSet[3]);
-    // console.log(nodesData, nodesData.NetworkNodes.Nodes.Node);
-
-    return [
-      edgesData.NetworkEdges.EdgeSets.EdgeSet,
-      nodesData.NetworkNodes.Nodes.Node,
-    ];
-  }
-
-  async function dataPre() {
-    const baseUrl = `./data`;
-    let newData = {};
-
-    nodes = await (await fetch(`${baseUrl}/nodes.json`)).json();
-    links = await (await fetch(`${baseUrl}/edges.json`)).json();
-
-    // console.log(links.NetworkEdges.EdgeSets.EdgeSet);
-    // console.log(nodes.NetworkNodes.Nodes.Node);
-
-    newData.nodes = [];
-    for (const i of nodes.NetworkNodes.Nodes.Node) {
-      newData.nodes.push({
-        id: i.SID,
-        data: i,
-        // i.Attributes
-      });
-    }
-
-    newData.links = [];
-    for (const i of links.NetworkEdges.EdgeSets.EdgeSet) {
-      newData.links.push({
-        source: i.FromNodeSID,
-        target: i.ToNodeSID,
-        value: 1,
-      });
-    }
-
-    // {nodes: [{id: '', group: 1}], links: [{source: '', target: '', value: 1}]}
-    return newData;
-  }
-
-  dataPre();
-
-  function zoom(value) {
-    // doesn't work, scale is gotten but not applied
-
-    // get current scale
-
-    // set new scale
-    const graph = q('.graph__transform');
-
-    const style = window.getComputedStyle(graph);
-    const matrix = style.transform || style.mozTransform;
-
-    if (matrix) {
-      const matrixValues = matrix.match(/matrix.*\((.+)\)/)[1].split(', ');
-      graph.style.transform = `${matrixValues[0] + value}, ${
-        matrixValues[1]
-      }, ${matrixValues[2]}, ${matrixValues[3]}, ${matrixValues[4]}, ${
-        matrixValues[5]
-      }`;
-
-      console.log(matrixValues);
-
-      // style transform(translate() scale())
-    }
-  }
-
-  function dataLinks(e, d) {
-    const linked = [];
-
-    for (const i of links.NetworkEdges.EdgeSets.EdgeSet) {
-      // remove ToNodeSID if only want single direction links
-      if (
-        i.FromNodeSID == d.__proto__.data.SID ||
-        i.ToNodeSID == d.__proto__.data.SID
-      ) {
-        linked.push(i);
-      }
-    }
-
-    let connectedNodes = [];
-
-    for (const i of linked) {
-      const x = nodes.NetworkNodes.Nodes.Node.filter((el) => {
-        return el.SID == i.ToNodeSID || el.SID == i.FromNodeSID;
-      });
-
-      connectedNodes.push(x);
-    }
-
-    connectedNodes = [...new Set(connectedNodes.flat())];
-
-    for (const i of connectedNodes) {
-      if (i.SID == d.__proto__.data.SID) {
-        i.clicked = true;
-        $highlightedCard = i;
-        $cardCanvasState = i.NodeID.toLowerCase();
-      } else {
-        i.clicked = false;
-      }
-    }
-
-    $cardsData = [...connectedNodes];
-  }
-
   onMount(async () => {
-    const height = 450;
-    const width = 650;
+    const height = 650;
+    const width = 750;
 
-    const data = await dataPre();
+    const data = await dataPreprocess();
+    let nodes2, links2;
+    [nodes2, links2] = await getData();
 
     const links = data.links.map((d) => Object.create(d));
     const nodes = data.nodes.map((d) => Object.create(d));
@@ -164,7 +50,7 @@
       .join('g')
 
       .on('click', (e, d) => {
-        dataLinks(e, d);
+        linkedNodes(e, d, nodes2, links2);
       })
 
       .attr('class', (d) => {
@@ -292,12 +178,3 @@
 </style>
 
 <svg class="graph" />
-
-<!-- 
-  <button on:click={() => zoom(0.25)}><img
-    src="./img/icon/zoom_in.svg"
-    alt="" /></button>
-  <button on:click={() => zoom(-0.25)}><img
-    src="./img/icon/zoom_out.svg"
-    alt="" /></button> 
--->

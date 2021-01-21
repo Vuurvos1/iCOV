@@ -83,7 +83,7 @@
   <section id="networkGraph">
     <NetworkGraphSearch />
     <NetworkGraph />
-    <Legend />
   </section>
   <GraphCanvas />
+  <Legend />
 </main>

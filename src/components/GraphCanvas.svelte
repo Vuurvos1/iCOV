@@ -3,13 +3,10 @@
   import { getAtribute, convertDate } from './../modules/helper';
   import Card from './Card.svelte';
   import House from './icons/House.svelte';
-  import Building from './icons/Building.svelte';
   import Female from './icons/Female.svelte';
   import Male from './icons/Male.svelte';
 
   import Company from './canvasElements/Company.svelte';
-  import Person from './canvasElements/Person.svelte';
-  import RealEstate from './canvasElements/RealEstate.svelte';
 
   function getSex() {
     return getAtribute($highlightedCard.Attributes.Attribute, 'SEX');
@@ -231,28 +228,5 @@
       <h1>Uw canvas is leeg</h1>
       <h2>Klik op een dot in de Relatie Scan om meer informatie te zien</h2>
     </div>
-    <!-- <h1>U bekijkt nu Steven King</h1>
-
-    <section class="addressBox addressBox--person">
-      <div class="icon">
-        <h3>Steven King</h3>
-
-        <ul>
-          <li>
-            Geslacht:
-            <b>man </b>
-            <Male class="cardList__icon" />
-          </li>
-          <li>
-            Connecties:
-            <b> 19 </b>
-          </li>
-          <li>
-            Geboortedatum:
-            <b> 1955-04-08 </b>
-          </li>
-        </ul>
-      </div>
-    </section> -->
   {/if}
 </div>
