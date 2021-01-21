@@ -1,4 +1,6 @@
 import { cardsData, cardCanvasState, highlightedCard } from './../store';
+import { get } from 'svelte/store';
+import { q, qa } from './helper';
 
 export const linkedNodes = (e, d, nodes, edges) => {
   const linked = [];
@@ -36,4 +38,16 @@ export const linkedNodes = (e, d, nodes, edges) => {
   }
 
   cardsData.set(connectedNodes);
+};
+
+// highlight all connected nodes
+export const highlightConnected = () => {
+  const nodes = qa('.node');
+  for (const i of nodes) {
+    i.style.opacity = '0.3';
+  }
+
+  for (const i of get(cardsData)) {
+    q(`.a${i.SID}`).style.opacity = '1';
+  }
 };

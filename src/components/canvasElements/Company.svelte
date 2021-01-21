@@ -120,12 +120,6 @@
     }
   }
 
-  .list--icon {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-
   :global(.icon--large) {
     height: 6rem;
     width: 100%;

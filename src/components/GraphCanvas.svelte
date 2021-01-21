@@ -55,10 +55,10 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-  }
 
-  .list--icon b {
-    margin-left: 0.4em;
+    b {
+      margin-left: 0.4em;
+    }
   }
 
   .icon {
@@ -73,7 +73,7 @@
     }
   }
 
-  .icon :global(.icon--large--white path:last-child) {
+  :global(.icon--white path:last-child) {
     fill: var(--white);
   }
 
@@ -125,6 +125,25 @@
     width: 100%;
 
     margin-bottom: 1.4rem;
+  }
+
+  .alsoOwns {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+    grid-template-rows: auto;
+    grid-column-gap: 1.4rem;
+    grid-row-gap: 1.4rem;
+
+    width: 100%;
+
+    color: var(--white);
+
+    margin-bottom: 1.4rem;
+    &__item {
+      background-color: var(--realEstate);
+      padding: 1rem;
+      border-radius: 0.5rem;
+    }
   }
 </style>
 
@@ -183,7 +202,7 @@
     <h3>{subLocation()}</h3>
     <section class="addressBox">
       <div class="icon">
-        <House class="icon--large icon--large--white" />
+        <House class="icon--large icon--white" />
 
         <ul>
           <li>
@@ -217,10 +236,22 @@
         ook:
       </h3>
 
-      <ul>
-        <!-- <li>img</li>
-        <li>img</li>
-        <li>img</li> -->
+      <ul class="alsoOwns">
+        <li class="alsoOwns__item">
+          <House class="icon--large icon--white" />
+
+          Datum van aankoop:
+          <b>
+            {convertDate(
+              getAtribute($highlightedCard.Attributes.Attribute, 'FROM_DATE')
+            )}
+          </b>
+
+          Aantal bewoners:
+          <b>
+            {$cardsData.length - 1}
+          </b>
+        </li>
       </ul>
     </section>
   {:else}

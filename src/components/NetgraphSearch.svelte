@@ -107,6 +107,14 @@
   .graphFilter__item input {
     cursor: pointer;
   }
+
+  button {
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: var(--white);
+    font-size: 1rem;
+  }
 </style>
 
 <ul class="graphFilters">
@@ -142,6 +150,14 @@
           on:change={checkboxChange}
         />
         <label for="bedrijven">Bedrijven</label>
+      </li>
+      <li>
+        <button
+          on:click={() => {
+            for (const i of qa('.node')) {
+              i.style.opacity = '1';
+            }
+          }}> Reset </button>
       </li>
     </ul>
   </li>

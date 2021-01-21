@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import * as d3 from 'd3';
 
-  import { linkedNodes } from './../modules/graphFunctions';
+  import { linkedNodes, highlightConnected } from './../modules/graphFunctions';
   import { getData, dataPreprocess } from './../modules/datasetHelpers';
 
   import { personPath, companyPath, realEstatePath } from './../modules/icons';
@@ -51,6 +51,7 @@
 
       .on('click', (e, d) => {
         linkedNodes(e, d, nodes2, links2);
+        highlightConnected();
       })
 
       .attr('class', (d) => {
